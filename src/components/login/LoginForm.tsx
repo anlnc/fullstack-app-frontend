@@ -3,17 +3,36 @@ import {
   Box,
   Button,
   CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Link,
   Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserLogin } from "../../hooks/UserHooks";
+import CreateUserModal from "../user/CreateUserModal";
 
 const LoginForm: React.FC = () => {
   const navigate = useNavigate();
   const { login, error, isLoading } = useUserLogin();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleCloseModal = useCallback(() => {
+    setIsModalOpen(false);
+  }, []);
+  const handleUserCreated = useCallback(async () => {
+    setIsModalOpen(false);
+    setIsDialogOpen(true);
+  }, []);
+
   const handleSubmit = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -62,6 +81,16 @@ const LoginForm: React.FC = () => {
           id="password"
           autoComplete="off"
         />
+        Don't have an account?&nbsp;
+        <Link
+          href="#"
+          variant="body2"
+          onClick={() => {
+            setIsModalOpen(true);
+          }}
+        >
+          {"Sign Up"}
+        </Link>
         <Button type="submit" fullWidth variant="contained" style={{ marginTop: "1em" }}>
           Login
         </Button>
@@ -70,6 +99,20 @@ const LoginForm: React.FC = () => {
           <CircularProgress color="inherit" />
         </Backdrop>
       </Box>
+      <CreateUserModal isOpen={isModalOpen} onClose={handleCloseModal} onOK={handleUserCreated} />
+      <Dialog open={isDialogOpen} onClose={() => setIsDialogOpen(false)}>
+        <DialogTitle>Successfully</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Your account has been created. Please log in to continue.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setIsDialogOpen(false)} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

@@ -8,7 +8,7 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-import React, { useCallback } from "react";
+import React, { useCallback, useRef } from "react";
 import { useCreateUser } from "../../hooks/UserHooks";
 
 const CreateUserModal: React.FC<{
@@ -18,11 +18,16 @@ const CreateUserModal: React.FC<{
 }> = ({ isOpen, onClose, onOK }) => {
   const { isLoading, createUser } = useCreateUser();
 
+  const fullnameRef = useRef<HTMLInputElement>(null);
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+
   const handleCreateUser = useCallback(async () => {
-    const fullname = (document.getElementById("fullname") as HTMLInputElement).value;
-    const username = (document.getElementById("username") as HTMLInputElement).value;
-    const email = (document.getElementById("email") as HTMLInputElement).value;
-    const password = (document.getElementById("password") as HTMLInputElement).value;
+    const fullname = fullnameRef.current?.value || "";
+    const username = usernameRef.current?.value || "";
+    const email = emailRef.current?.value || "";
+    const password = passwordRef.current?.value || "";
     await createUser({ fullname, username, email, password });
     onOK();
   }, [onOK, createUser]);
@@ -40,6 +45,7 @@ const CreateUserModal: React.FC<{
             type="text"
             fullWidth
             autoComplete="off"
+            inputRef={fullnameRef}
           />
           <TextField
             margin="dense"
@@ -48,6 +54,7 @@ const CreateUserModal: React.FC<{
             type="text"
             fullWidth
             autoComplete="off"
+            inputRef={usernameRef}
           />
           <TextField
             margin="dense"
@@ -56,6 +63,7 @@ const CreateUserModal: React.FC<{
             type="email"
             fullWidth
             autoComplete="off"
+            inputRef={emailRef}
           />
           <TextField
             margin="dense"
@@ -64,6 +72,7 @@ const CreateUserModal: React.FC<{
             type="password"
             fullWidth
             autoComplete="off"
+            inputRef={passwordRef}
           />
         </DialogContent>
         <DialogActions>
