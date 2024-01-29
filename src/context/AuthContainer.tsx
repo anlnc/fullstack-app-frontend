@@ -13,12 +13,10 @@ const AuthContainer = ({ children }: { children: React.ReactNode }) => {
     if (!token) {
       navigate("/login");
     } else {
-      // @TODO: Remove later
-      // If the token was issued before the bug was resolved
-      const { iat } = jwt_decode(token) as { iat: number };
-      const bugResolvedAt = new Date("2024-01-29T14:41:35.795Z").getTime() / 1000;
-      const forceLogout = iat < bugResolvedAt;
-      if (forceLogout) {
+      // Check if the token is expired
+      const { exp } = jwt_decode(token) as { iat: number; exp: number };
+      const isExpired = exp && Date.now() >= exp * 1000;
+      if (isExpired) {
         Cookies.remove("token");
         navigate("/login");
         return;
