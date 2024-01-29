@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const api_url = process.env.SERVER_URL;
+const api_url = process.env.REACT_APP_API_URL;
 console.log("process.env", process.env);
 console.log("api_url", api_url);
 
