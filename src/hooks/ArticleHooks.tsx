@@ -47,7 +47,6 @@ export const useDeleteArticle = () => {
       .finally(() => {
         setIsLoading(false);
       });
-    console.log("useDeleteArticle", { status });
     if (status === 204) {
       setError(null);
       return data;

@@ -6,7 +6,6 @@ import LoginForm from "../components/login/LoginForm";
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
-  console.log("token: ", !!Cookies.get("token"));
   const isAuthenticated = !!Cookies.get("token");
   useEffect(() => {
     if (isAuthenticated) {

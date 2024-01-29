@@ -1,7 +1,8 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const api_url = process.env.API_URL;
+const api_url = process.env.SERVER_URL;
+console.log("process.env", process.env);
 console.log("api_url", api_url);
 
 export const client = axios.create({
