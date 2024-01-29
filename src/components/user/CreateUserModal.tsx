@@ -6,6 +6,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Snackbar,
   TextField,
 } from "@mui/material";
 import React, { useCallback, useRef } from "react";
@@ -16,7 +17,7 @@ const CreateUserModal: React.FC<{
   onClose: () => void;
   onOK: () => void;
 }> = ({ isOpen, onClose, onOK }) => {
-  const { isLoading, createUser } = useCreateUser();
+  const { isLoading, error, createUser } = useCreateUser();
 
   const fullnameRef = useRef<HTMLInputElement>(null);
   const usernameRef = useRef<HTMLInputElement>(null);
@@ -28,8 +29,10 @@ const CreateUserModal: React.FC<{
     const username = usernameRef.current?.value || "";
     const email = emailRef.current?.value || "";
     const password = passwordRef.current?.value || "";
-    await createUser({ fullname, username, email, password });
-    onOK();
+    const createdSuccess = await createUser({ fullname, username, email, password });
+    if (createdSuccess) {
+      onOK();
+    }
   }, [onOK, createUser]);
 
   return (
@@ -87,6 +90,7 @@ const CreateUserModal: React.FC<{
       <Backdrop sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }} open={isLoading}>
         <CircularProgress color="inherit" />
       </Backdrop>
+      <Snackbar open={!!error} autoHideDuration={6000} message={error} />
     </>
   );
 };

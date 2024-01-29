@@ -1,10 +1,8 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const { SERVER_URL } = process.env;
-
 export const client = axios.create({
-  baseURL: SERVER_URL,
+  baseURL: process.env.API_URL,
   headers: {
     "content-type": "application/json",
   },
