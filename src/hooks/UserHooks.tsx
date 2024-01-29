@@ -1,4 +1,5 @@
 import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
 import { useState } from "react";
 import { client } from "../api/client";
 
@@ -118,8 +119,14 @@ export const useUserLogin = () => {
 
     if (statusCode === 200) {
       setError("");
-      // @TODO: IMPROVE LATER
-      Cookies.set("token", data.token, { expires: 1 });
+      const { token } = data;
+      const { exp } = jwt_decode(data.token) as { exp: number };
+      const expires = new Date(exp * 1000);
+      Cookies.set("token", token, {
+        expires,
+        domain: window.location.hostname,
+        secure: true,
+      });
       return true;
     }
     setError(message);
