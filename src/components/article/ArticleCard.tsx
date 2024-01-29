@@ -41,8 +41,8 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article, onUpdate }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const { isLoading: isDeleting, deleteArticle } = useDeleteArticle();
-  const { isLoading: isFavoriting, favoriteArticle } = useFavoriteArticle();
-  const { isLoading: isUnfavoriting, unfavoriteArticle } = useUnfavoriteArticle();
+  const { favoriteArticle } = useFavoriteArticle();
+  const { unfavoriteArticle } = useUnfavoriteArticle();
 
   const [showModalUpdate, setShowModalUpdate] = useState(false);
 
@@ -170,10 +170,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article, onUpdate }) => {
         onOK={onUpdate}
       />
 
-      <Backdrop
-        sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
-        open={isDeleting || isFavoriting || isUnfavoriting}
-      >
+      <Backdrop sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }} open={isDeleting}>
         <CircularProgress color="inherit" />
       </Backdrop>
     </>
