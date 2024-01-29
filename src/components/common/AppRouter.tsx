@@ -1,5 +1,6 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AuthContainer from "../../context/AuthContainer";
 import ArticlePage from "../../pages/ArticlePage";
 import LoginPage from "../../pages/LoginPage";
 import UserPage from "../../pages/UserPage";
@@ -9,19 +10,35 @@ const AppRouter: React.FC = () => {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <AppLayout />,
+      element: (
+        <AuthContainer>
+          <AppLayout />
+        </AuthContainer>
+      ),
       children: [
         {
           path: "/",
-          element: <ArticlePage />,
+          element: (
+            <AuthContainer>
+              <ArticlePage />
+            </AuthContainer>
+          ),
         },
         {
           path: "/login",
-          element: <LoginPage />,
+          element: (
+            <AuthContainer>
+              <LoginPage />
+            </AuthContainer>
+          ),
         },
         {
           path: "/users",
-          element: <UserPage />,
+          element: (
+            <AuthContainer>
+              <UserPage />
+            </AuthContainer>
+          ),
         },
       ],
     },

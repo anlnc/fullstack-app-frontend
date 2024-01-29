@@ -1,7 +1,7 @@
 import { ThemeProvider } from "@emotion/react";
+import { Box, createTheme } from "@mui/material";
 import "./App.css";
 import AppRouter from "./components/common/AppRouter";
-import { Box, createTheme } from "@mui/material";
 
 const defaultTheme = createTheme();
 

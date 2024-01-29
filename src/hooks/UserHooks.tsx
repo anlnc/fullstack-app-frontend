@@ -118,7 +118,8 @@ export const useUserLogin = () => {
 
     if (statusCode === 200) {
       setError("");
-      Cookies.set("token", data.token);
+      // @TODO: IMPROVE LATER
+      Cookies.set("token", data.token, { expires: 1 });
       return true;
     }
     setError(message);
